@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>800 - La Química del Aroma | Selector</title>
+    <title>800 - La Química del Aroma | Selector Pro</title>
     <style>
         body { font-family: 'Helvetica Neue', sans-serif; background-color: #1a1a1a; color: #e0e0e0; display: flex; justify-content: center; padding: 15px; margin: 0; min-height: 100vh; align-items: center; }
         .card { background: #2d2d2d; padding: 30px; border-radius: 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.6); max-width: 450px; width: 100%; border: 1px solid #444; text-align: center; }
@@ -12,7 +12,7 @@
         .logo-box h2 { font-size: 2.5em; margin: 0; color: #d4a373; line-height: 1; }
         .logo-box p { letter-spacing: 2px; font-size: 0.5em; margin: 0; color: #d4a373; font-weight: bold; border-top: 1px solid #d4a373; padding-top: 5px; }
 
-        h1 { color: #d4a373; font-size: 1.4em; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
+        h1 { color: #d4a373; font-size: 1.3em; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; line-height: 1.2; }
         .intro-p { color: #aaa; font-size: 0.95em; line-height: 1.5; margin-bottom: 20px; }
 
         .step { display: none; }
@@ -28,8 +28,10 @@
 
         .result-box { text-align: center; padding: 10px; }
         .coffee-name { color: #d4a373; font-size: 1.8em; font-weight: bold; margin: 15px 0; border-bottom: 1px solid #444; padding-bottom: 10px; }
-        .coffee-desc { font-style: italic; color: #ccc; margin-bottom: 20px; line-height: 1.4; }
-        .btn-reset { background: #d4a373; color: #1a1a1a; border: none; padding: 12px 25px; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 20px; width: 100%; text-transform: uppercase; }
+        .coffee-desc { font-style: italic; color: #ccc; margin-bottom: 25px; line-height: 1.4; }
+        
+        .btn-buy { background: #25D366; color: white; border: none; padding: 15px 25px; border-radius: 12px; font-weight: bold; cursor: pointer; width: 100%; text-decoration: none; display: inline-block; box-sizing: border-box; font-size: 1.1em; margin-bottom: 10px; }
+        .btn-reset { background: transparent; color: #aaa; border: 1px solid #444; padding: 10px; border-radius: 10px; cursor: pointer; width: 100%; font-size: 0.8em; text-transform: uppercase; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
@@ -44,72 +46,99 @@
     
     <div id="step-0" class="step active">
         <h1>Tu Café Ideal</h1>
-        <p class="intro-p">La química perfecta no es casualidad. Responde 3 preguntas y descubre cuál de nuestros granos 800 es para ti.</p>
-        <button class="option-btn" style="text-align:center; background:#d4a373; color:#1a1a1a; font-weight:bold;" onclick="nextStep(1)">INICIAR DESCUBRIMIENTO</button>
+        <p class="intro-p">Descubre la química perfecta para tu paladar y estilo de vida.</p>
+        <button class="option-btn" style="text-align:center; background:#d4a373; color:#1a1a1a; font-weight:bold;" onclick="nextStep(1)">INICIAR TEST</button>
     </div>
 
     <div id="step-1" class="step">
-        <h1>1. ¿Cómo prefieres tu taza?</h1>
-        <button class="option-btn" onclick="saveData('intensity', 'suave'); nextStep(2)">☕ Elegante, ligera y floral</button>
-        <button class="option-btn" onclick="saveData('intensity', 'balanceado'); nextStep(2)">⚖️ Equilibrada, con dulzura marcada</button>
-        <button class="option-btn" onclick="saveData('intensity', 'fuerte'); nextStep(2)">🔥 Intensa, con mucho cuerpo</button>
+        <h1>1. ¿Qué sensaciones buscas?</h1>
+        <button class="option-btn" onclick="saveData('intensity', 'suave'); nextStep(2)">☕ Delicadeza y flores</button>
+        <button class="option-btn" onclick="saveData('intensity', 'balanceado'); nextStep(2)">⚖️ Dulzura y frutos rojos</button>
+        <button class="option-btn" onclick="saveData('intensity', 'fuerte'); nextStep(2)">🔥 Fuerza y chocolate</button>
     </div>
 
     <div id="step-2" class="step">
-        <h1>2. ¿Qué sabor te cautiva?</h1>
-        <button class="option-btn" onclick="saveData('flavor', 'frutal'); nextStep(3)">🍋 Notas frutales y acidez limpia</button>
-        <button class="option-btn" onclick="saveData('flavor', 'dulce'); nextStep(3)">🍯 Caramelo, miel o chocolate</button>
-        <button class="option-btn" onclick="saveData('flavor', 'especia'); nextStep(3)">🪵 Notas maderosas y especiadas</button>
+        <h1>2. ¿Cómo lo preparas?</h1>
+        <button class="option-btn" onclick="saveData('metodo', 'Filtrado'); nextStep(3)">🧪 Goteo (V60, Chemex)</button>
+        <button class="option-btn" onclick="saveData('metodo', 'Fuerte/Greca'); nextStep(3)">🇮🇹 Greca o Espresso</button>
+        <button class="option-btn" onclick="saveData('metodo', 'Inmersión'); nextStep(3)">⏱️ Prensa o AeroPress</button>
     </div>
 
     <div id="step-3" class="step">
-        <h1>3. ¿Cuál es tu ritual?</h1>
-        <button class="option-btn" onclick="showResult('filtrado')">🧪 Filtrado (V60, Chemex)</button>
-        <button class="option-btn" onclick="showResult('inmersion')">⏱️ Inmersión (Prensa, AeroPress)</button>
-        <button class="option-btn" onclick="showResult('fuerte')">🇮🇹 Método fuerte (Greca, Espresso)</button>
+        <h1>3. ¿Cómo lo prefieres?</h1>
+        <button class="option-btn" onclick="saveData('presentacion', 'en Grano'); nextStep(4)">🥜 En Grano (fresco)</button>
+        <button class="option-btn" onclick="saveData('presentacion', 'Molido'); nextStep(4)">🔪 Molido (para mi método)</button>
+    </div>
+
+    <div id="step-4" class="step">
+        <h1>4. ¿Solo o con leche?</h1>
+        <button class="option-btn" onclick="saveData('estilo', 'negro'); nextStep(5)">🌑 Siempre Negro</button>
+        <button class="option-btn" onclick="saveData('estilo', 'leche'); nextStep(5)">🥛 Con leche</button>
+    </div>
+
+    <div id="step-5" class="step">
+        <h1>5. Notas favoritas:</h1>
+        <button class="option-btn" onclick="saveData('notas', 'citrico'); showResult()">🍋 Cítricos</button>
+        <button class="option-btn" onclick="saveData('notas', 'dulce'); showResult()">🍯 Dulces</button>
+        <button class="option-btn" onclick="saveData('notas', 'cacao'); showResult()">🍫 Cacao</button>
     </div>
 
     <div id="step-result" class="step result-box">
-        <p style="text-transform: uppercase; font-size: 0.8em; letter-spacing: 2px;">Resultado de la Química:</p>
+        <p style="text-transform: uppercase; font-size: 0.8em; letter-spacing: 2px;">La química ha decidido:</p>
         <div id="coffee-result" class="coffee-name"></div>
         <p id="coffee-desc" class="coffee-desc"></p>
-        <button class="btn-reset" onclick="resetQuiz()">REPETIR TEST</button>
+        
+        <a id="whatsapp-link" href="#" target="_blank" class="btn-buy">
+            🛒 PEDIR POR WHATSAPP
+        </a>
+        
+        <button class="btn-reset" onclick="resetQuiz()">Repetir Test</button>
     </div>
 </div>
 
 <script>
     let answers = {};
+    // Rotación de números: Alejo y Nano
+    const NUMEROS = ["573043691414", "573214401032"];
 
     function saveData(key, value) {
         answers[key] = value;
     }
 
-    function nextStep(currentStep) {
-        // Ocultamos todos los pasos
+    function nextStep(step) {
         document.querySelectorAll('.step').forEach(div => div.classList.remove('active'));
-        // Mostramos el que sigue
-        document.getElementById('step-' + currentStep).classList.add('active');
+        document.getElementById('step-' + step).classList.add('active');
     }
 
-    function showResult(metodo) {
-        answers['metodo'] = metodo;
-        
+    function showResult() {
         document.querySelectorAll('.step').forEach(div => div.classList.remove('active'));
         const resultDiv = document.getElementById('step-result');
         const nameText = document.getElementById('coffee-result');
         const descText = document.getElementById('coffee-desc');
+        const waLink = document.getElementById('whatsapp-link');
 
-        // Lógica de recomendación de 800
-        if (answers.intensity === 'suave' || answers.flavor === 'frutal') {
-            nameText.innerText = "800 - GEISHA";
-            descText.innerText = "Finca Santa María. Un perfil sofisticado con notas a jazmín y té verde. La máxima expresión de la elegancia en taza.";
-        } else if (answers.intensity === 'balanceado' || answers.flavor === 'dulce') {
-            nameText.innerText = "800 - BOURBON ROSADO";
-            descText.innerText = "Huila (1700 msnm). Dulzura de frutos rojos, miel y cacao. Una química equilibrada ideal para cualquier método.";
+        let finalCoffee = "";
+        let finalDesc = "";
+
+        if (answers.estilo === 'leche' || answers.intensity === 'fuerte') {
+            finalCoffee = "800 - BLEND MAESTRO";
+            finalDesc = "Diseñado para los que buscan carácter. Sus notas achocolatadas resaltan increíblemente.";
+        } else if (answers.intensity === 'suave') {
+            finalCoffee = "800 - GEISHA";
+            finalDesc = "Finca Santa María. Perfil floral a jazmín. La elegancia pura en taza.";
         } else {
-            nameText.innerText = "800 - BLEND MAESTRO";
-            descText.innerText = "Cuerpo robusto con notas achocolatadas y un final prolongado. El aroma con la fuerza perfecta para tu ritual diario.";
+            finalCoffee = "800 - BOURBON ROSADO";
+            finalDesc = "Huila. Nuestra joya equilibrada con notas dulces a miel y frutos rojos.";
         }
+
+        nameText.innerText = finalCoffee;
+        descText.innerText = finalDesc;
+
+        // Selección aleatoria del número para repartir pedidos
+        const numeroElegido = NUMEROS[Math.floor(Math.random() * NUMEROS.length)];
+        
+        const message = `¡Hola 800! Mi química es: ${finalCoffee}. Lo quiero ${answers.presentacion} para mi método de ${answers.metodo}.`;
+        waLink.href = `https://wa.me/${numeroElegido}?text=${encodeURIComponent(message)}`;
 
         resultDiv.classList.add('active');
     }
@@ -119,6 +148,5 @@
         nextStep(0);
     }
 </script>
-
 </body>
 </html>
