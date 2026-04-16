@@ -15,21 +15,21 @@
         h1 { color: #d4a373; font-size: 1.4em; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
         .intro-p { color: #aaa; font-size: 0.95em; line-height: 1.5; margin-bottom: 20px; }
 
-        .question-box { display: none; }
+        .step { display: none; }
         .active { display: block; animation: fadeIn 0.5s; }
 
         .option-btn { 
             display: block; width: 100%; padding: 15px; margin: 10px 0; 
             background: #3d3d3d; border: 2px solid #444; border-radius: 12px; 
             color: white; cursor: pointer; font-size: 1em; transition: all 0.3s;
-            text-align: left;
+            text-align: left; border-style: solid;
         }
         .option-btn:hover { border-color: #d4a373; background: #444; }
 
-        .result-box { display: none; text-align: center; padding: 10px; }
+        .result-box { text-align: center; padding: 10px; }
         .coffee-name { color: #d4a373; font-size: 1.8em; font-weight: bold; margin: 15px 0; border-bottom: 1px solid #444; padding-bottom: 10px; }
         .coffee-desc { font-style: italic; color: #ccc; margin-bottom: 20px; line-height: 1.4; }
-        .btn-reset { background: #d4a373; color: #1a1a1a; border: none; padding: 12px 25px; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 20px; width: 100%; }
+        .btn-reset { background: #d4a373; color: #1a1a1a; border: none; padding: 12px 25px; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 20px; width: 100%; text-transform: uppercase; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
@@ -42,38 +42,38 @@
         <p>LA QUÍMICA DEL AROMA</p>
     </div>
     
-    <div id="start-screen" class="active">
+    <div id="step-0" class="step active">
         <h1>Tu Café Ideal</h1>
         <p class="intro-p">La química perfecta no es casualidad. Responde 3 preguntas y descubre cuál de nuestros granos 800 es para ti.</p>
         <button class="option-btn" style="text-align:center; background:#d4a373; color:#1a1a1a; font-weight:bold;" onclick="nextStep(1)">INICIAR DESCUBRIMIENTO</button>
     </div>
 
-    <div id="q1" class="question-box">
+    <div id="step-1" class="step">
         <h1>1. ¿Cómo prefieres tu taza?</h1>
         <button class="option-btn" onclick="saveData('intensity', 'suave'); nextStep(2)">☕ Elegante, ligera y floral</button>
         <button class="option-btn" onclick="saveData('intensity', 'balanceado'); nextStep(2)">⚖️ Equilibrada, con dulzura marcada</button>
         <button class="option-btn" onclick="saveData('intensity', 'fuerte'); nextStep(2)">🔥 Intensa, con mucho cuerpo</button>
     </div>
 
-    <div id="q2" class="question-box">
+    <div id="step-2" class="step">
         <h1>2. ¿Qué sabor te cautiva?</h1>
         <button class="option-btn" onclick="saveData('flavor', 'frutal'); nextStep(3)">🍋 Notas frutales y acidez limpia</button>
         <button class="option-btn" onclick="saveData('flavor', 'dulce'); nextStep(3)">🍯 Caramelo, miel o chocolate</button>
         <button class="option-btn" onclick="saveData('flavor', 'especia'); nextStep(3)">🪵 Notas maderosas y especiadas</button>
     </div>
 
-    <div id="q3" class="question-box">
+    <div id="step-3" class="step">
         <h1>3. ¿Cuál es tu ritual?</h1>
-        <button class="option-btn" onclick="showResult()">🧪 Filtrado (V60, Chemex)</button>
-        <button class="option-btn" onclick="showResult()">⏱️ Inmersión (Prensa, AeroPress)</button>
-        <button class="option-btn" onclick="showResult()">🇮🇹 Método fuerte (Greca, Espresso)</button>
+        <button class="option-btn" onclick="showResult('filtrado')">🧪 Filtrado (V60, Chemex)</button>
+        <button class="option-btn" onclick="showResult('inmersion')">⏱️ Inmersión (Prensa, AeroPress)</button>
+        <button class="option-btn" onclick="showResult('fuerte')">🇮🇹 Método fuerte (Greca, Espresso)</button>
     </div>
 
-    <div id="result" class="result-box">
+    <div id="step-result" class="step result-box">
         <p style="text-transform: uppercase; font-size: 0.8em; letter-spacing: 2px;">Resultado de la Química:</p>
         <div id="coffee-result" class="coffee-name"></div>
         <p id="coffee-desc" class="coffee-desc"></p>
-        <button class="btn-reset" onclick="location.reload()">REPETIR TEST</button>
+        <button class="btn-reset" onclick="resetQuiz()">REPETIR TEST</button>
     </div>
 </div>
 
@@ -84,29 +84,22 @@
         answers[key] = value;
     }
 
-    function nextStep(step) {
-        // Ocultar todo
-        document.getElementById('start-screen').classList.remove('active');
-        document.getElementById('q1').classList.remove('active');
-        document.getElementById('q2').classList.remove('active');
-        document.getElementById('q3').classList.remove('active');
-        document.getElementById('result').classList.remove('active');
-        
-        // Mostrar el paso actual
-        document.getElementById('q' + step).classList.add('active');
+    function nextStep(currentStep) {
+        // Ocultamos todos los pasos
+        document.querySelectorAll('.step').forEach(div => div.classList.remove('active'));
+        // Mostramos el que sigue
+        document.getElementById('step-' + currentStep).classList.add('active');
     }
 
-    function showResult() {
-        // Ocultar preguntas
-        document.getElementById('q3').classList.remove('active');
+    function showResult(metodo) {
+        answers['metodo'] = metodo;
         
-        const resBox = document.getElementById('result');
+        document.querySelectorAll('.step').forEach(div => div.classList.remove('active'));
+        const resultDiv = document.getElementById('step-result');
         const nameText = document.getElementById('coffee-result');
         const descText = document.getElementById('coffee-desc');
-        
-        resBox.classList.add('active');
 
-        // Lógica de recomendación mejorada
+        // Lógica de recomendación de 800
         if (answers.intensity === 'suave' || answers.flavor === 'frutal') {
             nameText.innerText = "800 - GEISHA";
             descText.innerText = "Finca Santa María. Un perfil sofisticado con notas a jazmín y té verde. La máxima expresión de la elegancia en taza.";
@@ -117,6 +110,13 @@
             nameText.innerText = "800 - BLEND MAESTRO";
             descText.innerText = "Cuerpo robusto con notas achocolatadas y un final prolongado. El aroma con la fuerza perfecta para tu ritual diario.";
         }
+
+        resultDiv.classList.add('active');
+    }
+
+    function resetQuiz() {
+        answers = {};
+        nextStep(0);
     }
 </script>
 
